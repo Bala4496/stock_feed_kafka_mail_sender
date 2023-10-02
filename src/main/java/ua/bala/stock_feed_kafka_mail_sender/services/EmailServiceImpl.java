@@ -1,4 +1,4 @@
-package ua.bala.stock_feed_kafka_mail_sender.services.email;
+package ua.bala.stock_feed_kafka_mail_sender.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
