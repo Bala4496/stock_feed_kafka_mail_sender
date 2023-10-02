@@ -1,0 +1,26 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: stock_feed_kafka_mail_sender
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:stock.feed.viewer@gmail.com}
+    password: ${MAIL_PASSWORD:isttqmarsbtmujxu}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:29092}
+
+kafka:
+#  servers: ${KAFKA_SERVERS:localhost:29092}
+  topic: stock-feed-topic
+  group-id: registration-consumer-group
