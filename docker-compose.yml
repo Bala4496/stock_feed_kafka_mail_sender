@@ -5,15 +5,32 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: stock-feed-kafka-mail-sender
+    container_name: stock-feed-mail-sender
     depends_on:
+      - postgres
       - kafka
     environment:
+      DB_HOST: stock-feed-mail-sender-postgres:5432
       KAFKA_SERVERS: kafka:9092
     ports:
       - "9010:9010"
     networks:
+      - stock-feed-mail-sender-network
       - stock-feed-kafka-network
+
+  postgres:
+    image: postgres:latest
+    container_name: stock-feed-mail-sender-postgres
+    environment:
+      POSTGRES_DB: stock_feed_kafka_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - stock-feed-mail-sender-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -21,7 +38,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - 22181:2181
+      - "22181:2181"
     networks:
       - kafka-network
 
@@ -37,12 +54,18 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
-      - 29092:29092
+      - "29092:29092"
     networks:
-      - kafka-network
       - stock-feed-kafka-network
+      - kafka-network
+
+volumes:
+  postgres_data:
+  kafka_data:
 
 networks:
   kafka-network:
+    driver: bridge
+  stock-feed-mail-sender-network:
   stock-feed-kafka-network:
     external: true
