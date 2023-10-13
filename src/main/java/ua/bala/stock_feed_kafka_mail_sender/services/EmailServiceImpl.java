@@ -1,6 +1,7 @@
 package ua.bala.stock_feed_kafka_mail_sender.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.bala.stock_feed_kafka_mail_sender.model.messages.RegisterUserMessage;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
@@ -19,6 +21,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendRegistrationEmail(RegisterUserMessage message) {
+        log.info("Sending Registration Email for {}", message.getEmail());
         var simpleMailMessage = buildRegistrationConfirmationEmail(message.getFirstName(), message.getLastName(), message.getEmail(), message.getToken());
         mailSender.send(simpleMailMessage);
     }

@@ -5,6 +5,7 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -14,6 +15,7 @@ import ua.bala.stock_feed_kafka_mail_sender.model.messages.RegisterUserMessage;
 
 import java.util.HashMap;
 
+@EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
 
